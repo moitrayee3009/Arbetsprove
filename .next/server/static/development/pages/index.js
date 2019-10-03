@@ -107,13 +107,16 @@ __webpack_require__.r(__webpack_exports__);
 var _jsxFileName = "C:\\Data\\Arbetsprove\\pages\\index.js";
 
 var __jsx = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement;
-/* harmony default export */ __webpack_exports__["default"] = (() => __jsx("h1", {
+
+const Index = () => __jsx("h1", {
   __source: {
     fileName: _jsxFileName,
-    lineNumber: 1
+    lineNumber: 2
   },
   __self: undefined
-}, "Welcome next.js"));
+}, "Welcome next.js");
+
+/* harmony default export */ __webpack_exports__["default"] = (Index);
 
 /***/ }),
 
