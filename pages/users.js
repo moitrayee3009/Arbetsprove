@@ -19,6 +19,36 @@ class Users extends React.Component {
             token = query.token;
         }
 
+        if (token) {
+
+            //verify token 
+            const resTokenVerify = await fetch('https://beta.stockzoom.com/api-token-verify/', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    token: token
+                })
+            })
+            const resTokenVerifyJson = await resTokenVerify.json();
+
+            if (resTokenVerifyJson.token !== token) {
+                //refresh token 
+                const resTokenRefresh = await fetch('https://beta.stockzoom.com/api-token-refresh/', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        token: token
+                    })
+                })
+                const resTokenRefreshJson = await resTokenRefresh.json();
+                token = resTokenRefreshJson.token;
+            }
+        }
+
         const response = await fetch('https://beta.stockzoom.com/api/v1/me/portfolios/', {
             method: 'GET',
             headers: {

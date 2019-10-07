@@ -100,6 +100,36 @@ instrumentDetails.getInitialProps = async function ({ req, res, query }) {
         token = query.token;
     }
 
+    if (token) {
+
+        //verify token 
+        const resTokenVerify = await fetch('https://beta.stockzoom.com/api-token-verify/', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                token: token
+            })
+        })
+        const resTokenVerifyJson = await resTokenVerify.json();
+
+        if (resTokenVerifyJson.token !== token) {
+            //refresh token 
+            const resTokenRefresh = await fetch('https://beta.stockzoom.com/api-token-refresh/', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    token: token
+                })
+            })
+            const resTokenRefreshJson = await resTokenRefresh.json();
+            token = resTokenRefreshJson.token;
+        }
+    }
+
     // https://beta.stockzoom.com/api/v1/instruments/18151/ 
     const response = await fetch('https://beta.stockzoom.com/api/v1/instruments/' + alias + '/', {
         method: 'GET',
